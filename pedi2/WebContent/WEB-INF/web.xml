@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>DIA</display-name>
+  <display-name>PEDI2</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -11,7 +11,7 @@
   </welcome-file-list>
   <filter>
     <filter-name>CharsetFilter</filter-name>
-    <filter-class>net.gefco.dia.util.CharsetFilter</filter-class>
+    <filter-class>net.gefco.pedi2.util.CharsetFilter</filter-class>
     <init-param>
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
@@ -37,8 +37,8 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-  		classpath:net/gefco/dia/config/persistence-context.xml
-  		classpath:net/gefco/dia/config/service-context.xml
+  		classpath:net/gefco/pedi2/config/persistence-context.xml
+  		classpath:net/gefco/pedi2/config/service-context.xml
   	</param-value>
   </context-param>
   <session-config>

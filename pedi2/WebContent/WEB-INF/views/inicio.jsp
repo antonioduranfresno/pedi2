@@ -10,7 +10,7 @@
     
     <link rel="icon" href="res/img/ico/favicon.ico" type="image/x-icon" />
     
-    <title>DIA - Gefco España S.A.</title>
+    <title>PEDI2 - Gefco España S.A.</title>
 
     <link rel="stylesheet" href="res/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="res/css/font-awesome.min.css"/>
