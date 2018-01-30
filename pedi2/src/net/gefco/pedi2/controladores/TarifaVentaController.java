@@ -2,13 +2,16 @@ package net.gefco.pedi2.controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import net.gefco.pedi2.modelo.Cliente;
+import net.gefco.pedi2.modelo.Nodo;
 import net.gefco.pedi2.modelo.TarifaVenta;
+import net.gefco.pedi2.modelo.Usuario;
 import net.gefco.pedi2.negocio.AgenciaService;
+import net.gefco.pedi2.negocio.ClienteNodoService;
 import net.gefco.pedi2.negocio.ClienteService;
 import net.gefco.pedi2.negocio.NodoService;
 import net.gefco.pedi2.negocio.TarifaVentaService;
@@ -26,13 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 @Controller
+@SessionAttributes("usuarioSesion")
 public class TarifaVentaController {
 	
 	@Autowired
@@ -47,24 +51,26 @@ public class TarifaVentaController {
 	@Autowired
 	private NodoService 					nodoService;
 	
+	@Autowired
+	private ClienteNodoService 				clienteNodoService;
+	
 	//Nos lleva a la pagina
 	@RequestMapping("/tarifaVentaLista")
 	public String indice(Model model){		
 		
 		model.addAttribute("tarifaVenta", new TarifaVenta()); //Al iniciar página siempre pasamos instancia vacía
-		model.addAttribute("listaTarifas", tarifaVentaService.listado());
 		model.addAttribute("listaAgencias", agenciaService.listado());
 		model.addAttribute("listaClientes", clienteService.listado());
-		model.addAttribute("listaNodosOrigen", nodoService.listadoOrigenes());
-		model.addAttribute("listaNodosDestino", nodoService.listadoDestinos());
-		
+				
 		return "tarifaVentaLista";
 	}
 	
 	@RequestMapping(value= "/tarifaVentaLista/carga_tabla", method = RequestMethod.POST)
 	public String cargaTabla(Model model){
 		
-		model.addAttribute("listaTarifaVentas", tarifaVentaService.listado());
+		Usuario usuarioSesion = (Usuario) model.asMap().get("usuarioSesion");
+				
+		model.addAttribute("listaTarifaVentas", tarifaVentaService.listado(usuarioSesion.getAgencia()));
 		
 		return "tables/tablaTarifaVentas";
 	}
@@ -79,13 +85,15 @@ public class TarifaVentaController {
 		JsonObject 				myObj 						= new JsonObject();
 		
 		JsonElement				jsTarifaVenta	 			= gson.toJsonTree(tarifaVenta);
+						
+		//Para editar fechas necesitamos sacar la propiedad fecha (formato fecha) y agregarla al objeto formateada
 		
 		jsTarifaVenta.getAsJsonObject().remove("tave_fechaDesde");
 		jsTarifaVenta.getAsJsonObject().addProperty("tave_fechaDesde", tarifaVenta.getTave_fechaDesdeFormateada());
 
 		jsTarifaVenta.getAsJsonObject().remove("tave_fechaHasta");
 		jsTarifaVenta.getAsJsonObject().addProperty("tave_fechaHasta", tarifaVenta.getTave_fechaHastaFormateada());
-				
+		
 		myObj.add("objeto", jsTarifaVenta);			
 		PrintWriter out = response.getWriter();		
 		out.println(myObj.toString());	
@@ -95,13 +103,7 @@ public class TarifaVentaController {
 	@PostMapping(value = "/aceptar_tarifaVenta")
 	@ResponseBody
 	public TarifaVenta aceptar(@ModelAttribute("tarifaVenta") @Valid TarifaVenta tarifaVenta, BindingResult result){
-		
-		if (result.hasErrors()){
-			tarifaVenta.setStatus("FAIL");
-            tarifaVenta.setResult(result.getAllErrors());
-            return tarifaVenta;
-		}
-		
+
 		if (tarifaVenta.getTave_fechaDesde() == null) {
 			FieldError error = new FieldError("tarifaVenta", "tave_fechaDesde", "Debe rellenar la fecha de comienzo");
 			result.addError(error);
@@ -137,30 +139,48 @@ public class TarifaVentaController {
 			result.addError(error);
 		}
 		
-		if (tarifaVenta.getTave_fechaDesde().after(tarifaVenta.getTave_fechaHasta())) {
-			FieldError error = new FieldError("tarifaVenta", "tave_fechaDesde", "La fecha de comienzo debe ser inferior a la fin");
-			result.addError(error);
+		if (tarifaVenta.getTave_fechaDesde() != null && tarifaVenta.getTave_fechaHasta() != null) {			
+			if (tarifaVenta.getTave_fechaDesde().after(tarifaVenta.getTave_fechaHasta())) {
+				FieldError error = new FieldError("tarifaVenta", "tave_fechaDesde", "Fecha incoherente");
+				result.addError(error);
+			}
 		}
 		
-		if (tarifaVenta.getTave_numeroMaxPaletT2() != 0 && tarifaVenta.getTave_numeroMaxPaletT2() <= tarifaVenta.getTave_numeroMaxPaletT1()){
-			FieldError error = new FieldError("tarifaVenta", "tave_numeroMaxPaletT2", "El número de palet de la trancha 2 debe ser superior al de la trancha 1");
-			result.addError(error);
+		if (tarifaVenta.getTave_importeCamionCompleto() == null) {
+			if(!tarifaVenta.getTave_soloTranchas()){				
+				FieldError error = new FieldError("tarifaVenta", "error_tave_importeCamionCompleto", "Campo obligatorio");
+				result.addError(error);			
+			}
 		}
 		
-		if (tarifaVenta.getTave_numeroMaxPaletT3() != 0 && tarifaVenta.getTave_numeroMaxPaletT3() <= tarifaVenta.getTave_numeroMaxPaletT2()){
-			FieldError error = new FieldError("tarifaVenta", "tave_numeroMaxPaletT3", "El número de palet de la trancha 3 debe ser superior al de la trancha 2");
-			result.addError(error);
+		/*
+		if(tarifaVenta.getTave_numeroMaxT2() != null && tarifaVenta.getTave_numeroMaxT1() != null){
+			if (tarifaVenta.getTave_numeroMaxT2() != 0 && tarifaVenta.getTave_numeroMaxT2() <= tarifaVenta.getTave_numeroMaxT1()){
+				FieldError error = new FieldError("tarifaVenta", "tave_numeroMaxT2", "!");
+				result.addError(error);
+			}	
 		}
 		
-		if (tarifaVenta.getTave_numeroMaxPaletT4() != 0 && tarifaVenta.getTave_numeroMaxPaletT4() <= tarifaVenta.getTave_numeroMaxPaletT3()){
-			FieldError error = new FieldError("tarifaVenta", "tave_numeroMaxPaletT4", "El número de palet de la trancha 4 debe ser superior al de la trancha 3");
-			result.addError(error);
+		if(tarifaVenta.getTave_numeroMaxT3() != null && tarifaVenta.getTave_numeroMaxT2() != null){
+			if (tarifaVenta.getTave_numeroMaxT3() != 0 && tarifaVenta.getTave_numeroMaxT3() <= tarifaVenta.getTave_numeroMaxT2()){
+				FieldError error = new FieldError("tarifaVenta", "tave_numeroMaxT3", "!");
+				result.addError(error);
+			}			
 		}
 		
-		if (tarifaVenta.getTave_numeroMaxPaletT5() != 0 && tarifaVenta.getTave_numeroMaxPaletT5() <= tarifaVenta.getTave_numeroMaxPaletT4()){
-			FieldError error = new FieldError("tarifaVenta", "tave_numeroMaxPaletT5", "El número de palet de la trancha 5 debe ser superior al de la trancha 4");
-			result.addError(error);
+		if(tarifaVenta.getTave_numeroMaxT4() != null && tarifaVenta.getTave_numeroMaxT3() != null){			
+			if (tarifaVenta.getTave_numeroMaxT4() != 0 && tarifaVenta.getTave_numeroMaxT4() <= tarifaVenta.getTave_numeroMaxT3()){
+				FieldError error = new FieldError("tarifaVenta", "tave_numeroMaxT4", "!");
+				result.addError(error);
+			}
 		}
+		
+		if(tarifaVenta.getTave_numeroMaxT5() != null && tarifaVenta.getTave_numeroMaxT4() != null){		
+			if (tarifaVenta.getTave_numeroMaxT5() != 0 && tarifaVenta.getTave_numeroMaxT5() <= tarifaVenta.getTave_numeroMaxT4()){
+				FieldError error = new FieldError("tarifaVenta", "tave_numeroMaxT5", "!");
+				result.addError(error);
+			}			
+		}*/
 		
 		if (result.hasErrors()){
 			tarifaVenta.setStatus("FAIL");
@@ -197,6 +217,7 @@ public class TarifaVentaController {
 		}			
 				
 		return tarifaVenta;
+		
 	}
 	
 	@RequestMapping(value = "/tarifaVentaLista&id={idTarifaVenta}/eliminar", method = RequestMethod.POST)
@@ -212,14 +233,39 @@ public class TarifaVentaController {
 			return "error";			
 		}		
 	}
-	
-	//Exportación a Excel
-	@RequestMapping(value = "/exportarTarifaVenta", method = RequestMethod.GET)
-    public ModelAndView descargarExcel() {
 		
-		List<TarifaVenta> lista = tarifaVentaService.listado();
+	@RequestMapping(value = "/tarifaVentaLista/selCliente={idCliente}") 
+	@ResponseBody 
+	public String seleccionCliente(@PathVariable("idCliente") Integer idCliente){
+	
+		Cliente cliente = clienteService.buscarCliente(idCliente);
+		
+		Gson 					gson 						= new Gson(); 
+		JsonObject 				myObj 						= new JsonObject();
 				
-        return new ModelAndView("excelViewTarifaVenta", "tarifaVenta", lista);
-    }	
+		StringBuilder cadenaOrigenes = new StringBuilder();
+		
+		cadenaOrigenes.append("<option value='0'>Selección</option>");
+		
+		for(Nodo nodo : clienteNodoService.listadoOrigenesCliente(cliente)){		
+			cadenaOrigenes.append("<option value='"+nodo.getId()+"'>"+nodo.getProveedor().getProv_nombre()+" - " + nodo.getNodo_nombre() + "</option>");			
+		}
+		
+		StringBuilder cadenaDestinos = new StringBuilder();
+		
+		cadenaDestinos.append("<option value='0'>Selección</option>");
+		
+		for(Nodo nodo : clienteNodoService.listadoDestinosCliente(cliente)){		
+			cadenaDestinos.append("<option value='"+nodo.getId()+"'>"+nodo.getProveedor().getProv_nombre()+" - " + nodo.getNodo_nombre() + "</option>");			
+		}
+		
+		JsonElement				jsListaOrigenes		= gson.toJsonTree(cadenaOrigenes.toString());
+		JsonElement				jsListaDestinos		= gson.toJsonTree(cadenaDestinos.toString());
+			
+		myObj.add("listaOrigenes", jsListaOrigenes);
+		myObj.add("listaDestinos", jsListaDestinos);
+		
+		return myObj.toString();		
+	}	
 	
 }

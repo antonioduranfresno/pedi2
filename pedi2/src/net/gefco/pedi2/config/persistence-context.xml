@@ -27,7 +27,7 @@
 			    <prop key="hibernate.connection.password">root</prop>
 			    <prop key="hibernate.show_sql">false</prop>
 			    
-<!-- 			     <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+				<!--   <prop key="hibernate.hbm2ddl.auto">update</prop> --> 
 			
 			    <prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</prop>
 			

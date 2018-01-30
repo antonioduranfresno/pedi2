@@ -34,4 +34,22 @@ public class ProveedorService {
 		return proveedorDao.buscar(id);
 	}
 	
+	public String tipoProveedor(Proveedor proveedor){
+		
+		String tipo = "";
+		
+		if(proveedor.getProv_esPlataforma().booleanValue()==true){
+			tipo = "TRANSFERENCIA";
+		}else{
+			tipo = "MACROGRUPO";
+		}
+		
+		return tipo;
+		
+	}
+
+	public Proveedor buscarNif(String nif) {
+		return proveedorDao.buscarNif(nif);
+	}
+	
 }

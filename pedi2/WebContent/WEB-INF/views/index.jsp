@@ -72,7 +72,7 @@
       <hr>
 
       <footer>
-        <p>&copy; 2017 Gefco España S.A. - Departamento Informática
+        <p>&copy; 2018 Gefco España S.A. - Departamento Informática
 						
 	  		<a href="#" id="noRegistrado" class="pull-right">¿No está registrado?</a>        	
 	        

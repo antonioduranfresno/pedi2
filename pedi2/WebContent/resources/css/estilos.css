@@ -245,6 +245,20 @@ input[readonly] {
 	margin: 0 0 0 10px;
 }
 
+.mini a, .mini button{
+	float: right;
+	width: 50px;
+	margin: 0 0 0 10px;
+}
+
+.mini label{		
+	margin: 0 0 0 10px;
+	font-size: 14px;
+	height: 10px;
+	padding: 8px 10px 20px 10px;
+	vertical-align: text-top;		
+}
+
 .izquierda input[type="submit"], .izquierda input[type="button"]{
 	margin: 10px 0 0 0;
 	float: left;
@@ -263,12 +277,13 @@ input[readonly] {
 .derecha input[type="submit"], .derecha input[type="button"]{	
 	float: right;
 	width: 120px;
+	margin: 10px 0 0 0;
 }
 
 .izquierdaEmergente input[type="submit"], .izquierdaEmergente input[type="button"]{
-	margin: 10px 0 0 -15px;
+	margin: 10px 0 0 0px;
 	float: left;
-	width: 120px;
+	width: 120px;	
 }
 
 .derechaEmergente input[type="submit"], .derechaEmergente input[type="button"]{
@@ -294,6 +309,64 @@ input[readonly] {
 	margin: 12px;
 }
 
+#pedi_incidencia, #pedi_anulado{
+	margin: 0;
+	width: 35px;
+}
 
+#tabla input[type='checkbox']{
+	height: 25px;
+	width: 25px;
+}
 
+.checkGrande{	
+	height: 25px;
+	width: 25px;
+}
 
+.gefco-tooltip + .tooltip > .tooltip-inner {
+	background-color: #131D70;
+	font-family: inherit;
+  	font-size: 13px;
+  	font-weight: bold;
+  	width: auto;
+  	color: #F2C128;
+  	padding: 6px;
+}
+
+.vacio{
+	color: white;		
+}
+
+.sacar{
+	background-color: #FFC433;
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.invisible{
+	display: none;
+}
+
+#etiquetaIncidencia{
+	font-size:20px; 
+	font-weight: bold; 
+	color: red; 
+	vertical-align: top;
+}
+
+#etiquetaGrupo, #etiqueta_precio_cc{
+	vertical-align: super;
+}
+
+.validado{
+	font-size: 24px; color: green; margin-left: 3px; vertical-align: super;
+}
+
+.rechazado{
+	font-size: 24px; color: red;
+}
+
+#btnPrefacturar{
+	background-color: #E3310B;
+}

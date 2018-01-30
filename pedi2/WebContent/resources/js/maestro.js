@@ -32,7 +32,7 @@ function agregar(id, objeto){
 	});
 	
 	$('#'+objeto+'Form')[0].reset();
-	
+		
 	if(id!=0){
 					
 		$.ajax({
@@ -62,7 +62,13 @@ function agregar(id, objeto){
 					
 				//Selects	
 				}else{
-					$("#"+key).val(res.objeto[key].id);					
+					
+					if(res.objeto[key].id!=null){
+						$("#"+key).val(res.objeto[key].id);	
+					}else{
+						$("#"+key).val(res.objeto[key]);	
+					}					
+										
 				}
 				
 			}
@@ -80,7 +86,12 @@ function agregar(id, objeto){
 }
 
 function aceptar(objeto){
-	
+
+	//TRIM
+	$.each($('form input:text'), function(index, formField) {
+		$(formField).val($(formField).val().trim());
+	});	
+
 	$.ajax({
 		type	 	: "post",
 		url      	: "aceptar_"+objeto,
@@ -111,7 +122,7 @@ function aceptar(objeto){
 	
 }
 
-function cargarTabla(objeto){
+function cargarTabla(objeto, columna, orden){
 
 	waitingDialog.show('Un momento, por favor...');
 	
@@ -130,7 +141,7 @@ function cargarTabla(objeto){
 		 		    	"language": {
 		 		    		"url": "res/json/es.json"
 		 		        },
-		 		    	"pageLength": 10,
+		 		    	"pageLength": 100,		 		    	
 		 		    	"initComplete": waitingDialog.hide()		    
 										
 		 		}); 	
@@ -148,12 +159,3 @@ function cargarTabla(objeto){
 	
 }
 
-function marcar (idCheck) {	
-	document.getElementById(idCheck + 'Span1').style.display ='inline-block';
-	document.getElementById(idCheck + 'Span2').style.display ='none';
-}
-
-function desmarcar (idCheck) {
-	document.getElementById(idCheck + 'Span1').style.display ='none';
-	document.getElementById(idCheck + 'Span2').style.display ='inline-block';
-} 
