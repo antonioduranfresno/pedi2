@@ -29,20 +29,19 @@
         
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="page-header derecha">Nodos                    
-                    	<a href="exportarNodo" class="btn btn-success"><span class="glyphicon glyphicon-export"></span> Exportar</a>
-                    	<a href="#" onclick="agregar(0,'nodo');" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
+                    <h2 class="page-header mini">Nodos
+                    	<a href="#" onclick="agregar(0,'nodo');" class="btn btn-primary" title="Nuevo nodo"><span class="glyphicon glyphicon-plus"></span></a>
+                    	<c:choose>
+							<c:when test="${param.success eq true}">
+								<label class="alert alert-success ">Cambios realizados correctamente.</label>
+							</c:when>
+							<c:when test="${param.success eq false}">
+								<label class="alert alert-danger ">No se realizaron los cambios.</label>
+							</c:when>
+						</c:choose>                      	
                     </h2>
                 </div>
            </div> 
-           
-           <div class="row">
-           	   <c:choose>
-				    <c:when test="${param.success eq true}">
-				        <div class="alert alert-success">Cambios realizados correctamente.</div>
-				    </c:when>
-			   </c:choose>
-           </div>
            
 		   <div class="table-responsive" id="divTabla">
 
@@ -80,20 +79,72 @@
 	                   		</sf:select>
 			        	</div>			        	
 					</div>
-					
+
 					<div class="row">
 			        	<div class="col-sm-12">
-			        		<label>Dirección</label>
-			        		<label id="nodo_direccion" class="error label label-danger"></label>								
-			        		<sf:textarea rows="3" class="form-control" path="nodo_direccion" value="${nodo.nodo_direccion}" maxlength="255" ></sf:textarea>		        			   
+			        		<label>Nombre</label>
+			        		<label id="nodo_nombre" class="error label label-danger"></label>								
+			        		<sf:input class="form-control" path="nodo_nombre" value="${nodo.nodo_nombre}" maxlength="45" />		        			   
 			        	</div>
 					</div>	
 					
 					<div class="row">
 			        	<div class="col-sm-12">
+			        		<label>Dirección</label>
+			        		<label id="nodo_direccion" class="error label label-danger"></label>								
+			        		<sf:textarea rows="2" class="form-control" path="nodo_direccion" value="${nodo.nodo_direccion}" maxlength="255" ></sf:textarea>		        			   
+			        	</div>
+					</div>	
+
+					<div class="row">
+			        	<div class="col-sm-12">
+			        		<label>Población</label>
+			        		<label id="nodo_poblacion" class="error label label-danger"></label>								
+			        		<sf:input class="form-control" path="nodo_poblacion" value="${nodo.nodo_poblacion}" maxlength="45" />			        			   
+			        	</div>
+					</div>
+					
+					<div class="row">
+			        	<div class="col-sm-4">
+			        		<label>Código Postal</label>
+			        		<label id="nodo_codigoPostal" class="error label label-danger"></label>								
+			        		<sf:input class="form-control" path="nodo_codigoPostal" value="${nodo.nodo_codigoPostal}" maxlength="45" />			        			   
+			        	</div>
+			        	<div class="col-sm-4">
+			        		<label>Provincia</label>
+			        		<label id="nodo_provincia" class="error label label-danger"></label>								
+			        		<sf:input class="form-control" path="nodo_provincia" maxlength="255" />			        			   
+			        	</div>
+						<div class="col-sm-4">
+	                  		<label>Pais</label>	                  		
+	                  		<label id="error_pais" class="error label label-danger"></label>
+	                  		<sf:select class="form-control" id="pais" path="pais.id" >
+	                       		<option value="0">Selección</option>
+	                          	<c:forEach items="${listaPaises}" var="c" varStatus="index">
+	                          		<option value="${c.id}" ${c.id == nodo.pais.id ? 'selected' : '' }>${c.toStringCodigo()}</option>
+	                   			</c:forEach>
+	                   		</sf:select>
+			        	</div>			        	
+					</div>		
+
+					<div class="row">
+						<div class="col-sm-12">
+	                  		<label>Zona</label>	                  		
+	                  		<label id="error_zona" class="error label label-danger"></label>
+	                  		<sf:select class="form-control" id="zona" path="zona.id" value="${nodo.zona.id}">
+	                       		<option value="0">Selección</option>
+	                          	<c:forEach items="${listaZonas}" var="c" varStatus="index">
+	                          		<option value="${c.id}" ${c.id == nodo.zona.id ? 'selected' : '' }>${c.zona_nombre}</option>
+	                   			</c:forEach>
+	                   		</sf:select>
+			        	</div>			        	
+					</div>					
+					
+					<div class="row">
+			        	<div class="col-sm-12">
 			        		<label>Observaciones</label>
 			        		<label id="nodo_observaciones" class="error label label-danger"></label>								
-			        		<sf:textarea rows="3" class="form-control" path="nodo_observaciones" value="${nodo.nodo_observaciones}" maxlength="255" ></sf:textarea>		        			   
+			        		<sf:textarea rows="2" class="form-control" path="nodo_observaciones" value="${nodo.nodo_observaciones}" maxlength="255" ></sf:textarea>		        			   
 			        	</div>
 					</div>		        	
 					

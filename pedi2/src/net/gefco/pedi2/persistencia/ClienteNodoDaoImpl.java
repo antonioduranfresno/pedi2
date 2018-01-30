@@ -2,7 +2,9 @@ package net.gefco.pedi2.persistencia;
 
 import java.util.List;
 
+import net.gefco.pedi2.modelo.Cliente;
 import net.gefco.pedi2.modelo.ClienteNodo;
+import net.gefco.pedi2.modelo.Nodo;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -43,7 +45,7 @@ public class ClienteNodoDaoImpl implements ClienteNodoDao{
 	@SuppressWarnings("unchecked")
 	public List<ClienteNodo> listado() {		
 		
-		Query query = getSession().createQuery("from ClienteNodo");
+		Query query = getSession().createQuery("from ClienteNodo c order by c.cliente, c.nodo.proveedor.prov_nombre, c.nodo.nodo_nombre");
 		
 		return query.list();
 	}
@@ -58,4 +60,37 @@ public class ClienteNodoDaoImpl implements ClienteNodoDao{
 		return (ClienteNodo) crit.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Nodo> listadoOrigenesCliente(Cliente cliente) {
+
+		Query query = getSession().createQuery("select c.nodo from ClienteNodo c where c.cliente = :cliente and c.clno_nodoCarga = true");
+		
+		query.setParameter("cliente", cliente);
+		
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Nodo> listadoDestinosCliente(Cliente cliente) {
+		
+		Query query = getSession().createQuery("select c.nodo from ClienteNodo c where c.cliente = :cliente and c.clno_nodoDescarga = true");
+		
+		query.setParameter("cliente", cliente);
+		
+		return query.list();
+	}
+
+	@Override
+	public ClienteNodo devuelveClienteNodo(Cliente cliente, Nodo nodo){
+		
+		Query query = getSession().createQuery("from ClienteNodo where cliente = :cliente and nodo = :nodo");
+		
+		query.setParameter("cliente", cliente);
+		query.setParameter("nodo", nodo);
+		
+		return (ClienteNodo) query.uniqueResult();
+	}
+	
 }

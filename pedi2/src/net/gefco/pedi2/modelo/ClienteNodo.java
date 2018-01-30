@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import net.gefco.pedi2.util.JsonResponse;
 
 @Entity
@@ -31,6 +33,7 @@ public class ClienteNodo extends JsonResponse implements Serializable{
 	@JoinColumn(name="nodo")
 	private Nodo		nodo				= null;
 	
+	@NotEmpty
 	private String		clno_codigo			= null;
 	
 	private Boolean		clno_nodoCarga		= null;

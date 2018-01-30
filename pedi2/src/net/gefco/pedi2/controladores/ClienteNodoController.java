@@ -80,7 +80,23 @@ public class ClienteNodoController {
 	@PostMapping(value = "/aceptar_clienteNodo")
 	@ResponseBody
 	public ClienteNodo aceptar(@ModelAttribute("clienteNodo") @Valid ClienteNodo clienteNodo, BindingResult result){
-				
+			
+		if (clienteNodo.getCliente().getId() == 0) {
+			FieldError error = new FieldError("nodo", "error_cliente", "Debe seleccionar cliente");
+			result.addError(error);
+		}
+
+		if (clienteNodo.getNodo().getId() == 0) {
+			FieldError error = new FieldError("nodo", "error_nodo", "Debe seleccionar nodo");
+			result.addError(error);
+		}
+		
+		if (result.hasErrors()){
+			clienteNodo.setStatus("FAIL");
+			clienteNodo.setResult(result.getAllErrors());
+            return clienteNodo;
+		}
+		
 		try{
 			
 			if(clienteNodo.getId()==null || clienteNodo.getId()==0){

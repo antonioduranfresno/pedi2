@@ -29,20 +29,19 @@
         
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="page-header derecha">Cliente - Proveedores
-                    	<a href="exportarClienteProveedor" class="btn btn-success"><span class="glyphicon glyphicon-export"></span> Exportar</a>
-                    	<a href="#" onclick="agregar(0,'clienteProveedor');" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
+                    <h2 class="page-header mini">Cliente - Proveedores                    	
+                    	<a href="#" onclick="agregar(0,'clienteProveedor');" class="btn btn-primary" title="Nuevo cliente - proveedor"><span class="glyphicon glyphicon-plus"></span></a>
+                    	<c:choose>
+							<c:when test="${param.success eq true}">
+								<label class="alert alert-success ">Cambios realizados correctamente.</label>
+							</c:when>
+							<c:when test="${param.success eq false}">
+								<label class="alert alert-danger ">No se realizaron los cambios.</label>
+							</c:when>
+						</c:choose>                       	
                     </h2>
                 </div>
            </div> 
-           
-           <div class="row">
-           	   <c:choose>
-				    <c:when test="${param.success eq true}">
-				        <div class="alert alert-success">Cambios realizados correctamente.</div>
-				    </c:when>
-			   </c:choose>
-           </div>
            
 		   <div class="table-responsive" id="divTabla">
 

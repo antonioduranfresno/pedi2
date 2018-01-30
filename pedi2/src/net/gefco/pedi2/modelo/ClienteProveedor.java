@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import net.gefco.pedi2.util.JsonResponse;
 
 @Entity
@@ -31,6 +33,7 @@ public class ClienteProveedor extends JsonResponse implements Serializable{
 	@JoinColumn(name="proveedor")
 	private Proveedor	proveedor		= null;
 	
+	@NotEmpty
 	private String		clpr_codigo		= null;
 
 	public Integer getId() {

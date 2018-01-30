@@ -23,7 +23,6 @@ public class Proveedor extends JsonResponse implements Serializable{
 	@Column(name="id")
 	private Integer 			id						= null;
 
-	@NotEmpty
 	private String				prov_nif				= null;
 	
 	@NotEmpty

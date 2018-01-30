@@ -1,6 +1,9 @@
+<%@page import="net.gefco.pedi2.modelo.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <meta http-equiv="refresh" content="${pageContext.session.maxInactiveInterval};url='${pageContext.servletContext.contextPath}/salir'">
+
+<% Usuario usuario = (Usuario) session.getAttribute("usuarioSesion"); %>
 
       <nav class="navbar navbar-default navbar-static-top">
         <div class="container-fluid">
@@ -17,14 +20,27 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="pedidoLista">Pedidos</a></li>              
               
+			  <li><a href="pedidoLista">Pedidos</a></li>
+
+              <li class="dropdown">
+              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentos <span class="caret"></span></a>              	      
+              	<ul class="dropdown-menu">
+				  <li><a href="facturaLista?documento=prefactura">Prefacturas</a></li>                  
+                  <li><a href="facturaLista?documento=factura">Facturas</a></li>
+              	</ul>        
+              </li>             
+              
+              <%if(usuario.getUsua_administrador()){ %>
+               
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maestros <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="clienteLista">Clientes</a></li>                  
                   <li><a href="proveedorLista">Proveedores</a></li>
                   <li><a href="nodoLista">Nodos</a></li>
+                  <li><a href="zonaLista">Zonas</a></li>
+                  <li><a href="paisLista">Paises</a></li>
                    <li><a href="tarifaVentaLista">Tarifas venta</a></li>
                   <li class="divider"></li>                  
                   <li><a href="agenciaLista">Agencias</a></li>
@@ -36,7 +52,10 @@
                   <li><a href="clienteProveedorLista">Cliente - Proveedores</a></li>
                   <li><a href="clienteNodoLista">Cliente - Nodos</a></li>
                 </ul>
-              </li>                                                                    
+              </li>
+              
+              <%} %>
+                                                                                  
             </ul>
 			<ul class="nav navbar-top-links navbar-right" >
 				<li><a href="salir" ><i class="fa fa-sign-out fa-lg"></i></a></li>

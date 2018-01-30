@@ -30,16 +30,12 @@ public class NodoService {
 		return nodoDao.listado();
 	}
 	
-	public List<Nodo> listadoOrigenes(){
-		return nodoDao.listado();
-	}
-	
-	public List<Nodo> listadoDestinos(){
-		return nodoDao.listado();
-	}
-	
 	public Nodo buscar(Integer id){
 		return nodoDao.buscar(id);
+	}
+
+	public List<Nodo> listadoPlataformas(){
+		return nodoDao.listadoPlataformas();
 	}
 	
 }

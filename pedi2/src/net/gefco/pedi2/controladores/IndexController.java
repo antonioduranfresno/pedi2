@@ -13,7 +13,6 @@ import net.gefco.pedi2.negocio.UsuarioService;
 import net.gefco.pedi2.util.Encriptacion;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 @Controller
-@Scope("session")
 @SessionAttributes("usuarioSesion")
 public class IndexController {
 	

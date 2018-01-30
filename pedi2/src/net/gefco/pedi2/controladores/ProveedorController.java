@@ -70,7 +70,21 @@ public class ProveedorController {
 	@PostMapping(value = "/aceptar_proveedor")
 	@ResponseBody
 	public Proveedor aceptar(@ModelAttribute("proveedor") @Valid Proveedor proveedor, BindingResult result){
-				
+		
+		if(proveedor.getProv_nif().length()>0){
+			Proveedor provAux = proveedorService.buscarNif(proveedor.getProv_nif().trim());
+			if( provAux !=null && provAux.getId() != proveedor.getId()){				
+				FieldError error = new FieldError("proveedor", "error_nif", "El nif ya existe");
+				result.addError(error);
+			}
+		}
+		
+		if (result.hasErrors()){
+			proveedor.setStatus("FAIL");
+			proveedor.setResult(result.getAllErrors());
+            return proveedor;
+		}
+		
 		try{
 			
 			if(proveedor.getId()==null || proveedor.getId()==0){

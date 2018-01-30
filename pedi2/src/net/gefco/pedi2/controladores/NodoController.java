@@ -2,14 +2,15 @@ package net.gefco.pedi2.controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import net.gefco.pedi2.modelo.Nodo;
 import net.gefco.pedi2.negocio.NodoService;
+import net.gefco.pedi2.negocio.PaisService;
 import net.gefco.pedi2.negocio.ProveedorService;
+import net.gefco.pedi2.negocio.ZonaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -39,12 +39,20 @@ public class NodoController {
 	@Autowired
 	private ProveedorService 			proveedorService;
 	
+	@Autowired
+	private PaisService 				paisService;
+	
+	@Autowired
+	private ZonaService 				zonaService;
+	
 	//Nos lleva a la pagina
 	@RequestMapping("/nodoLista")
 	public String indice(Model model){		
 		
 		model.addAttribute("nodo", new Nodo()); //Al iniciar página siempre pasamos instancia vacía
 		model.addAttribute("listaProveedores", proveedorService.listado());
+		model.addAttribute("listaPaises", paisService.listado());
+		model.addAttribute("listaZonas", zonaService.listado());
 		
 		return "nodoLista";
 	}
@@ -76,6 +84,27 @@ public class NodoController {
 	@ResponseBody
 	public Nodo aceptar(@ModelAttribute("nodo") @Valid Nodo nodo, BindingResult result){
 				
+		if (nodo.getProveedor().getId() == 0) {
+			FieldError error = new FieldError("nodo", "error_proveedor", "Debe seleccionar proveedor");
+			result.addError(error);
+		}
+
+		if (nodo.getPais().getId() == 0) {
+			FieldError error = new FieldError("nodo", "error_pais", "Debe seleccionar pais");
+			result.addError(error);
+		}
+		
+		if (nodo.getZona().getId() == 0) {
+			FieldError error = new FieldError("nodo", "error_zona", "Debe seleccionar zona");
+			result.addError(error);
+		}
+		
+		if (result.hasErrors()){
+			nodo.setStatus("FAIL");
+            nodo.setResult(result.getAllErrors());
+            return nodo;
+		}
+		
 		try{
 			
 			if(nodo.getId()==null || nodo.getId()==0){
@@ -96,7 +125,7 @@ public class NodoController {
 			FieldError error;
 			
             if (e.getClass().equals(DataIntegrityViolationException.class)){	                	   
-                error = new FieldError("nodo", "agen_codigo", "El código de nodo ya existe.");                
+                error = new FieldError("nodo", "nodo_nombre", "El nombre del nodo ya existe.");                
                 result.addError(error);
 	        }      
 			
@@ -120,14 +149,5 @@ public class NodoController {
 			return "error";			
 		}		
 	}
-	
-	//Exportación a Excel
-	@RequestMapping(value = "/exportarNodo", method = RequestMethod.GET)
-    public ModelAndView descargarExcel() {
 		
-		List<Nodo> lista = nodoService.listado();
-				
-        return new ModelAndView("excelViewNodo", "nodo", lista);
-    }	
-	
 }
