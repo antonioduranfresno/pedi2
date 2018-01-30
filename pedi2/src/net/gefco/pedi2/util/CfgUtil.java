@@ -6,6 +6,7 @@ public class CfgUtil {
 	public static final String USR_BBDD = "root";
 	public static final String PW_BBDD = "root";
 	
-	public static final String RUTA_FICHEROS   	 = "D:\\edi\\ficheros\\";
-	public static final String RUTA_MANUAL		 = "D:\\edi\\manual\\";
+	public static final String RUTA_PREFACTURAS  = "E:\\pedi2\\ficheros\\prefacturas\\";
+	public static final String RUTA_FACTURAS   	 = "E:\\pedi2\\ficheros\\facturas\\";
+	public static final String RUTA_MANUAL		 = "E:\\pedi2\\manual\\";
 }

@@ -29,21 +29,20 @@
         
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="page-header derecha">Proveedores                    
-                    	<a href="exportarProveedor" class="btn btn-success"><span class="glyphicon glyphicon-export"></span> Exportar</a>
-                    	<a href="#" onclick="agregar(0,'proveedor');" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
+                    <h2 class="page-header mini">Proveedores
+                    	<a href="#" onclick="agregar(0,'proveedor');" class="btn btn-primary" title="Nuevo proveedor"><span class="glyphicon glyphicon-plus"></span></a>
+                    	<c:choose>
+							<c:when test="${param.success eq true}">
+								<label class="alert alert-success ">Cambios realizados correctamente.</label>
+							</c:when>
+							<c:when test="${param.success eq false}">
+								<label class="alert alert-danger ">No se realizaron los cambios.</label>
+							</c:when>
+						</c:choose>   
                     </h2>
                 </div>
            </div> 
-           
-           <div class="row">
-           	   <c:choose>
-				    <c:when test="${param.success eq true}">
-				        <div class="alert alert-success">Cambios realizados correctamente.</div>
-				    </c:when>
-			   </c:choose>
-           </div>
-           
+
 		   <div class="table-responsive" id="divTabla">
 
 		   </div>
@@ -66,13 +65,13 @@
 		      
 				<sf:form id="proveedorForm" method="post" modelAttribute="proveedor">
 						
-					<sf:input type="hidden" path="id" value="${proveedor.id}" />
+					<sf:input type="hidden" path="id" />
 										
 				   	<div class="row">
 			        	<div class="col-sm-6">
-			        		<label>NIF</label>			        				
-			        		<label id="prov_nif" class="error label label-danger"></label>	        		       		
-			        		<sf:input class="form-control" path="prov_nif" value="${proveedor.prov_nif}" maxlength="15" />		        		
+			        		<label>CIF</label>			        				
+			        		<label id="error_nif" class="error label label-danger"></label>	        		       		
+			        		<sf:input class="form-control" path="prov_nif"  maxlength="15" />		        		
 			        	</div>
 		        				        	
 					</div>
@@ -81,7 +80,7 @@
 			        	<div class="col-sm-12">
 			        		<label>Nombre</label>
 			        		<label id="prov_nombre" class="error label label-danger"></label>			        			   
-			        		<sf:input class="form-control" path="prov_nombre" value="${proveedor.prov_nombre}" maxlength="255" />		        		
+			        		<sf:input class="form-control" path="prov_nombre" maxlength="255" />		        		
 			        	</div>
 					</div>
 		        	
@@ -97,7 +96,7 @@
 			        	<div class="col-sm-12">
 			        		<label>Observaciones</label>
 			        		<label id="prov_observaciones" class="error label label-danger"></label>								
-			        		<sf:textarea rows="3" class="form-control" path="prov_observaciones" value="${proveedor.prov_observaciones}" maxlength="255" ></sf:textarea>		        			   
+			        		<sf:textarea rows="3" class="form-control" path="prov_observaciones" maxlength="255" ></sf:textarea>		        			   
 			        	</div>
 					</div>		        	
 					
@@ -139,7 +138,7 @@
             html: true,
             offLabel: 'PROVEEDOR',
             onLabel:  'PLATAFORMA'
-      });
+    	});
 		
 		
 	});	

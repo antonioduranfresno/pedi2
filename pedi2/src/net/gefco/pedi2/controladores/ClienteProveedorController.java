@@ -81,6 +81,22 @@ public class ClienteProveedorController {
 	@ResponseBody
 	public ClienteProveedor aceptar(@ModelAttribute("clienteProveedor") @Valid ClienteProveedor clienteProveedor, BindingResult result){
 				
+		if (clienteProveedor.getCliente().getId() == 0) {
+			FieldError error = new FieldError("clienteProveedor", "error_cliente", "Debe seleccionar cliente");
+			result.addError(error);
+		}
+
+		if (clienteProveedor.getProveedor().getId() == 0) {
+			FieldError error = new FieldError("clienteProveedor", "error_proveedor", "Debe seleccionar proveedor");
+			result.addError(error);
+		}
+		
+		if (result.hasErrors()){
+			clienteProveedor.setStatus("FAIL");
+			clienteProveedor.setResult(result.getAllErrors());
+            return clienteProveedor;
+		}
+		
 		try{
 			
 			if(clienteProveedor.getId()==null || clienteProveedor.getId()==0){
@@ -101,7 +117,7 @@ public class ClienteProveedorController {
 			FieldError error;
 			
             if (e.getClass().equals(DataIntegrityViolationException.class)){	                	   
-                error = new FieldError("clienteProveedor", "agen_codigo", "El código de clienteProveedor ya existe.");                
+                error = new FieldError("clienteProveedor", "agen_codigo", "El código ya existe.");                
                 result.addError(error);
 	        }      
 			

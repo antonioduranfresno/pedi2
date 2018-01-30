@@ -43,7 +43,7 @@ public class ProveedorDaoImpl implements ProveedorDao{
 	@SuppressWarnings("unchecked")
 	public List<Proveedor> listado() {		
 		
-		Query query = getSession().createQuery("from Proveedor");
+		Query query = getSession().createQuery("from Proveedor order by prov_nombre");
 		
 		return query.list();
 	}
@@ -54,6 +54,16 @@ public class ProveedorDaoImpl implements ProveedorDao{
 		Criteria crit = getSession().createCriteria(Proveedor.class);
 		
 		crit.add(Restrictions.eq("id", id));
+		
+		return (Proveedor) crit.uniqueResult();
+	}
+
+	@Override
+	public Proveedor buscarNif(String nif) {
+		
+		Criteria crit = getSession().createCriteria(Proveedor.class);
+		
+		crit.add(Restrictions.eq("prov_nif", nif));
 		
 		return (Proveedor) crit.uniqueResult();
 	}

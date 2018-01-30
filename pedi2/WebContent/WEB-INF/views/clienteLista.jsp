@@ -29,20 +29,19 @@
         
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="page-header derecha">Clientes                    
-                    	<a href="exportarCliente" class="btn btn-success"><span class="glyphicon glyphicon-export"></span> Exportar</a>
-                    	<a href="#" onclick="agregar(0,'cliente');" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
+                    <h2 class="page-header mini">Clientes
+                    	<a href="#" onclick="agregar(0,'cliente');" class="btn btn-primary" title="Nuevo cliente"><span class="glyphicon glyphicon-plus"></span></a>
+                    	<c:choose>
+							<c:when test="${param.success eq true}">
+								<label class="alert alert-success ">Cambios realizados correctamente.</label>
+							</c:when>
+							<c:when test="${param.success eq false}">
+								<label class="alert alert-danger ">No se realizaron los cambios.</label>
+							</c:when>
+						</c:choose>                       	
                     </h2>
                 </div>
            </div> 
-           
-           <div class="row">
-           	   <c:choose>
-				    <c:when test="${param.success eq true}">
-				        <div class="alert alert-success">Cambios realizados correctamente.</div>
-				    </c:when>
-			   </c:choose>
-           </div>
            
 		   <div class="table-responsive" id="divTabla">
 
@@ -74,6 +73,11 @@
 			        		<label id="clie_nif" class="error label label-danger"></label>	        		       		
 			        		<sf:input class="form-control" path="clie_nif" value="${cliente.clie_nif}" maxlength="45" />		        		
 			        	</div>
+			        	<div class="col-sm-6">
+			        		<label>ALIAS</label>			        				
+			        		<label id="clie_alias" class="error label label-danger"></label>	        		       		
+			        		<sf:input class="form-control" path="clie_alias" value="${cliente.clie_alias}" maxlength="45" />		        		
+			        	</div>			        	
 			        </div>
 			        
 			        <div class="row">					
@@ -104,7 +108,20 @@
 			        		<sf:input class="form-control" path="clie_nadPr" value="${cliente.clie_nadPr}" maxlength="45" />		        		
 			        	</div>
 					</div>
-				
+
+				   	<div class="row">
+			        	<div class="col-sm-6">
+			        		<label>CÓDIGO SAP</label>			        				
+			        		<label id="clie_codigoSap" class="error label label-danger"></label>	        		       		
+			        		<sf:input class="form-control" path="clie_codigoSap" value="${cliente.clie_codigoSap}" maxlength="45" />		        		
+			        	</div>
+			        	<div class="col-sm-6">
+			        		<label>DÍAS VENCIMIENTO</label>			        				
+			        		<label id="clie_diasVencimiento" class="error label label-danger"></label>	        		       		
+			        		<sf:input class="form-control text-right" path="clie_diasVencimiento" value="${cliente.clie_diasVencimiento}" />		        		
+			        	</div>
+					</div>
+									
 					<br>
 		
 					<div class="footer">      

@@ -1,7 +1,9 @@
 package net.gefco.pedi2.negocio;
 
+import java.util.Date;
 import java.util.List;
 
+import net.gefco.pedi2.modelo.Agencia;
 import net.gefco.pedi2.modelo.TarifaVenta;
 import net.gefco.pedi2.persistencia.TarifaVentaDao;
 
@@ -26,8 +28,8 @@ public class TarifaVentaService {
 		tarifaVentaDao.eliminar(tarifaVenta);
 	}
 	
-	public List<TarifaVenta> listado(){
-		return tarifaVentaDao.listado();
+	public List<TarifaVenta> listado(Agencia agencia){
+		return tarifaVentaDao.listado(agencia);
 	}
 	
 	public TarifaVenta buscar(Integer id){
@@ -36,6 +38,10 @@ public class TarifaVentaService {
 
 	public boolean solapada(TarifaVenta tarifaVenta) {
 		return tarifaVentaDao.solapada(tarifaVenta);
+	}
+	
+	public TarifaVenta obtenerTarifa(Integer idAgencia, Integer idCliente, Integer idNodoOrigen, Integer idNodoDestino, Date fecha){
+		return tarifaVentaDao.obtenerTarifa(idAgencia, idCliente, idNodoOrigen, idNodoDestino, fecha);
 	}
 	
 }

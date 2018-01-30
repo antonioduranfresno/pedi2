@@ -29,20 +29,19 @@
         
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 class="page-header derecha">Cliente - Nodos
-                    	<a href="exportarClienteNodo" class="btn btn-success"><span class="glyphicon glyphicon-export"></span> Exportar</a>
-                    	<a href="#" onclick="agregar(0,'clienteNodo');" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Añadir</a>
+                    <h2 class="page-header mini">Cliente - Nodos                    	
+                    	<a href="#" onclick="agregar(0,'clienteNodo');" class="btn btn-primary" title="Nuevo cliente - nodo"><span class="glyphicon glyphicon-plus"></span></a>
+                    	<c:choose>
+							<c:when test="${param.success eq true}">
+								<label class="alert alert-success ">Cambios realizados correctamente.</label>
+							</c:when>
+							<c:when test="${param.success eq false}">
+								<label class="alert alert-danger ">No se realizaron los cambios.</label>
+							</c:when>
+						</c:choose>                         	
                     </h2>
                 </div>
            </div> 
-           
-           <div class="row">
-           	   <c:choose>
-				    <c:when test="${param.success eq true}">
-				        <div class="alert alert-success">Cambios realizados correctamente.</div>
-				    </c:when>
-			   </c:choose>
-           </div>
            
 		   <div class="table-responsive" id="divTabla">
 
@@ -87,7 +86,7 @@
 	                  		<sf:select class="form-control" id="nodo" path="nodo.id" value="${clienteNodo.nodo.id}">
 	                       		<option value="0">Selección</option>
 	                          	<c:forEach items="${listaNodos}" var="c" varStatus="index">
-	                          		<option value="${c.id}" ${c.id == clienteNodo.nodo.id ? 'selected' : '' }>${c.nodo_direccion}</option>
+	                          		<option value="${c.id}" ${c.id == clienteNodo.nodo.id ? 'selected' : '' }>${c.proveedor.prov_nombre} - ${c.nodo_nombre}</option>
 	                   			</c:forEach>
 	                   		</sf:select>
 			        	</div>			        	
@@ -102,34 +101,17 @@
 					</div>
 					
 					<div class="row">
-			        	<div class="col-sm-6 form-group">	        	
-				        	
-				            <sf:checkbox path="clno_nodoCarga"  id="clno_nodoCarga" name="clno_nodoCarga" cssStyle="display:none"  
-				            	onchange="if (this.checked) {marcar(this.id);} else {desmarcar(this.id);}; " />
-				             
-
-				            <div class="btn-group">
-				                <label for="clno_nodoCarga" class="btn btn-success">
-				                    <span class="glyphicon glyphicon-ok" id="clno_nodoCargaSpan1" style="width: 20px;"></span>
-				                    <span id="clno_nodoCargaSpan2" style="width: 20px;"> </span>
-				                </label>
-				                <label for="clno_nodoCarga" class="btn btn-default active"> Usado para carga </label>
-				            </div>
+			        	<div class="col-sm-4">	        	
+				        	 
+				            <label>Usado para carga</label><br/> 
+							<sf:checkbox class="form-control" data-group-cls="btn-group-justified" id="clno_nodoCarga" path="clno_nodoCarga" />				             
 				       
 					     </div>
 			        	
-						<div class="col-sm-6 form-group">	        	
-				        	
-				            <sf:checkbox path="clno_nodoDescarga"  id="clno_nodoDescarga" name="clno_nodoDesarga" cssStyle="display:none"  
-				            	onchange="if (this.checked) {marcar(this.id);} else {desmarcar(this.id);}; " />				             
-
-				            <div class="btn-group">
-				                <label for="clno_nodoDescarga" class="btn btn-success">
-				                    <span class="glyphicon glyphicon-ok" id="clno_nodoDescargaSpan1" style="width: 20px;"></span>
-				                    <span id="clno_nodoDescargaSpan2" style="width: 20px;"> </span>
-				                </label>
-				                <label for="clno_nodoDescarga" class="btn btn-default active"> Usado para descarga </label>
-				            </div>
+			        	<div class="col-sm-4 pull-right">	        	
+				        	 
+				            <label>Usado para descarga</label><br/> 
+							<sf:checkbox class="form-control" data-group-cls="btn-group-justified" id="clno_nodoDescarga" path="clno_nodoDescarga" />				             
 				       
 					     </div>
 					    
@@ -157,6 +139,7 @@
 
     <script type="text/javascript" src='<c:url value="/res/js/jquery-1.10.2.js" />' ></script>
 	<script type="text/javascript" src='<c:url value="/res/js/bootstrap.min.js" />' ></script>
+	<script type="text/javascript" src='<c:url value="/res/js/bootstrap-checkbox.min.js" />' ></script>
     <script type="text/javascript" src='<c:url value="/res/js/jquery.dataTables.js" />'></script>
 	<script type="text/javascript" src='<c:url value="/res/js/dataTables.bootstrap.js" />'></script>
     <script type="text/javascript" src='<c:url value="/res/js/loading.js" />'></script>
@@ -167,6 +150,18 @@
 	$(document).ready(function() {
 		
 		cargarTabla('clienteNodo');
+		
+		$('#clno_nodoCarga').checkboxpicker({
+            html: true,
+            offLabel: '<span class="glyphicon glyphicon-remove">',
+            onLabel: '<span class="glyphicon glyphicon-ok">'
+    	});
+		
+		$('#clno_nodoDescarga').checkboxpicker({
+            html: true,
+            offLabel: '<span class="glyphicon glyphicon-remove">',
+            onLabel: '<span class="glyphicon glyphicon-ok">'
+    	});
 		
 	});	
 		

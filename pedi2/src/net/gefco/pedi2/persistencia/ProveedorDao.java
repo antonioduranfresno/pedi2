@@ -16,5 +16,6 @@ public interface ProveedorDao {
 	
 	public Proveedor buscar(Integer id);
 
+	public Proveedor buscarNif(String nif);
 	
 }

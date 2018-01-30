@@ -16,5 +16,7 @@ public interface NodoDao {
 	
 	public Nodo buscar(Integer id);
 
+	public List<Nodo> listadoPlataformas();
+
 	
 }

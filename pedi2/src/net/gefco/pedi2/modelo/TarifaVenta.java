@@ -26,110 +26,71 @@ public class TarifaVenta extends JsonResponse implements Serializable{
 	@Id
 	@GeneratedValue
 	@Column(name="id")
-	private Integer 			id							= null;
+	private Integer 			id								= null;
 	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
-	private Date				tave_fechaDesde				= null;
+	private Date				tave_fechaDesde					= null;
 	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
-	private Date				tave_fechaHasta				= null;
+	private Date				tave_fechaHasta					= null;
 		
 	@ManyToOne
 	@JoinColumn(name="agencia")
-	private Agencia				agencia						= null;
+	private Agencia				agencia							= null;
 		
 	@ManyToOne
 	@JoinColumn(name="cliente")
-	private Cliente				cliente						= null;
+	private Cliente				cliente							= null;
 	
 	@ManyToOne
 	@JoinColumn(name="nodoOrigen")
-	private Nodo				nodoOrigen					= null;
+	private Nodo				nodoOrigen						= null;
 	
 	@ManyToOne
 	@JoinColumn(name="nodoDestino")
-	private Nodo				nodoDestino					= null;
-	
-	private String  			tave_observaciones			= null;
+	private Nodo				nodoDestino						= null;
 	
 	@NotNull
-	private Double 				tave_importeCamionCompleto	= null;
+	private Double 				tave_importeCamionCompleto		= null;
 	
-	@NotNull
-	private Integer 			tave_numeroMaxPaletT1		= null;
+	private Double 				tave_numeroDesdeCC 				= null;
 	
-	@NotNull
-	private Double 				tave_importePaletT1			= null;
+	private Double 				tave_importeT1					= null;
+	
+	private Double 				tave_importeT2					= null;
 
-	@NotNull
-	private Integer 			tave_numeroMaxPaletT2		= null;
+	private Double 				tave_importeT3					= null;
+	
+	private Double 				tave_importeT4					= null;
+	
+	private Double 				tave_importeT5					= null;
+	
+	private Integer 			tave_numeroMaxT1				= null;	
+	
+	private Integer 			tave_numeroMaxT2				= null;
+		
+	private Integer 			tave_numeroMaxT3				= null;	
+	
+	private Integer 			tave_numeroMaxT4				= null;	
+	
+	private Integer 			tave_numeroMaxT5				= null;	
+	
+	private Boolean				tave_soloTranchas				= null;
 
-	@NotNull
-	private Double 				tave_importePaletT2			= null;
-
-	@NotNull
-	private Integer 			tave_numeroMaxPaletT3		= null;
-
-	@NotNull
-	private Double 				tave_importePaletT3			= null;
-
-	@NotNull
-	private Integer 			tave_numeroMaxPaletT4		= null;
-
-	@NotNull
-	private Double 				tave_importePaletT4			= null;
-
-	@NotNull
-	private Integer 			tave_numeroMaxPaletT5		= null;
-
-	@NotNull
-	private Double 				tave_importePaletT5			= null;
-
-	public TarifaVenta() {
-		super();
-	}
-
-	public TarifaVenta(Integer id, Date tave_fechaDesde, Date tave_fechaHasta,
-			Agencia agencia, Cliente cliente, Nodo nodoOrigen,
-			Nodo nodoDestino, String tave_observaciones,
-			Double tave_importeCamionCompleto, Integer tave_numeroMaxPaletT1,
-			Double tave_importePaletT1, Integer tave_numeroMaxPaletT2,
-			Double tave_importePaletT2, Integer tave_numeroMaxPaletT3,
-			Double tave_importePaletT3, Integer tave_numeroMaxPaletT4,
-			Double tave_importePaletT4, Integer tave_numeroMaxPaletT5,
-			Double tave_importePaletT5) {
-		super();
-		this.id = id;
-		this.tave_fechaDesde = tave_fechaDesde;
-		this.tave_fechaHasta = tave_fechaHasta;
-		this.agencia = agencia;
-		this.cliente = cliente;
-		this.nodoOrigen = nodoOrigen;
-		this.nodoDestino = nodoDestino;
-		this.tave_observaciones = tave_observaciones;
-		this.tave_importeCamionCompleto = tave_importeCamionCompleto;
-		this.tave_numeroMaxPaletT1 = tave_numeroMaxPaletT1;
-		this.tave_importePaletT1 = tave_importePaletT1;
-		this.tave_numeroMaxPaletT2 = tave_numeroMaxPaletT2;
-		this.tave_importePaletT2 = tave_importePaletT2;
-		this.tave_numeroMaxPaletT3 = tave_numeroMaxPaletT3;
-		this.tave_importePaletT3 = tave_importePaletT3;
-		this.tave_numeroMaxPaletT4 = tave_numeroMaxPaletT4;
-		this.tave_importePaletT4 = tave_importePaletT4;
-		this.tave_numeroMaxPaletT5 = tave_numeroMaxPaletT5;
-		this.tave_importePaletT5 = tave_importePaletT5;
-	}
-
+	private String  			tave_observaciones				= null;
+	
 	public Integer getId() {
 		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Date getTave_fechaDesde() {
 		return tave_fechaDesde;
 	}
-
 	public void setTave_fechaDesde(Date tave_fechaDesde) {
 		this.tave_fechaDesde = tave_fechaDesde;
 	}
@@ -137,19 +98,13 @@ public class TarifaVenta extends JsonResponse implements Serializable{
 	public Date getTave_fechaHasta() {
 		return tave_fechaHasta;
 	}
-
 	public void setTave_fechaHasta(Date tave_fechaHasta) {
 		this.tave_fechaHasta = tave_fechaHasta;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public Agencia getAgencia() {
 		return agencia;
 	}
-
 	public void setAgencia(Agencia agencia) {
 		this.agencia = agencia;
 	}
@@ -157,7 +112,6 @@ public class TarifaVenta extends JsonResponse implements Serializable{
 	public Cliente getCliente() {
 		return cliente;
 	}
-
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
@@ -165,7 +119,6 @@ public class TarifaVenta extends JsonResponse implements Serializable{
 	public Nodo getNodoOrigen() {
 		return nodoOrigen;
 	}
-
 	public void setNodoOrigen(Nodo nodoOrigen) {
 		this.nodoOrigen = nodoOrigen;
 	}
@@ -173,127 +126,108 @@ public class TarifaVenta extends JsonResponse implements Serializable{
 	public Nodo getNodoDestino() {
 		return nodoDestino;
 	}
-
 	public void setNodoDestino(Nodo nodoDestino) {
 		this.nodoDestino = nodoDestino;
-	}
-
-	public String getTave_observaciones() {
-		return tave_observaciones;
-	}
-
-	public void setTave_observaciones(String tave_observaciones) {
-		this.tave_observaciones = tave_observaciones;
 	}
 
 	public Double getTave_importeCamionCompleto() {
 		return tave_importeCamionCompleto;
 	}
-
 	public void setTave_importeCamionCompleto(Double tave_importeCamionCompleto) {
 		this.tave_importeCamionCompleto = tave_importeCamionCompleto;
 	}
 
-	public Integer getTave_numeroMaxPaletT1() {
-		return tave_numeroMaxPaletT1;
+	public Double getTave_numeroDesdeCC() {
+		return tave_numeroDesdeCC;
+	}
+	public void setTave_numeroDesdeCC(Double tave_numeroDesdeCC) {
+		this.tave_numeroDesdeCC = tave_numeroDesdeCC;
 	}
 
-	public void setTave_numeroMaxPaletT1(Integer tave_numeroMaxPaletT1) {
-		this.tave_numeroMaxPaletT1 = tave_numeroMaxPaletT1;
+	public Double getTave_importeT1() {
+		return tave_importeT1;
+	}
+	public void setTave_importeT1(Double tave_importeT1) {
+		this.tave_importeT1 = tave_importeT1;
 	}
 
-	public Double getTave_importePaletT1() {
-		return tave_importePaletT1;
+	public Double getTave_importeT2() {
+		return tave_importeT2;
+	}
+	public void setTave_importeT2(Double tave_importeT2) {
+		this.tave_importeT2 = tave_importeT2;
 	}
 
-	public void setTave_importePaletT1(Double tave_importePaletT1) {
-		this.tave_importePaletT1 = tave_importePaletT1;
+	public Double getTave_importeT3() {
+		return tave_importeT3;
+	}
+	public void setTave_importeT3(Double tave_importeT3) {
+		this.tave_importeT3 = tave_importeT3;
 	}
 
-	public Integer getTave_numeroMaxPaletT2() {
-		return tave_numeroMaxPaletT2;
+	public Double getTave_importeT4() {
+		return tave_importeT4;
+	}
+	public void setTave_importeT4(Double tave_importeT4) {
+		this.tave_importeT4 = tave_importeT4;
 	}
 
-	public void setTave_numeroMaxPaletT2(Integer tave_numeroMaxPaletT2) {
-		this.tave_numeroMaxPaletT2 = tave_numeroMaxPaletT2;
+	public Double getTave_importeT5() {
+		return tave_importeT5;
+	}
+	public void setTave_importeT5(Double tave_importeT5) {
+		this.tave_importeT5 = tave_importeT5;
 	}
 
-	public Double getTave_importePaletT2() {
-		return tave_importePaletT2;
+	public Integer getTave_numeroMaxT1() {
+		return tave_numeroMaxT1;
+	}
+	public void setTave_numeroMaxT1(Integer tave_numeroMaxT1) {
+		this.tave_numeroMaxT1 = tave_numeroMaxT1;
 	}
 
-	public void setTave_importePaletT2(Double tave_importePaletT2) {
-		this.tave_importePaletT2 = tave_importePaletT2;
+	public Integer getTave_numeroMaxT2() {
+		return tave_numeroMaxT2;
+	}
+	public void setTave_numeroMaxT2(Integer tave_numeroMaxT2) {
+		this.tave_numeroMaxT2 = tave_numeroMaxT2;
 	}
 
-	public Integer getTave_numeroMaxPaletT3() {
-		return tave_numeroMaxPaletT3;
+	public Integer getTave_numeroMaxT3() {
+		return tave_numeroMaxT3;
+	}
+	public void setTave_numeroMaxT3(Integer tave_numeroMaxT3) {
+		this.tave_numeroMaxT3 = tave_numeroMaxT3;
 	}
 
-	public void setTave_numeroMaxPaletT3(Integer tave_numeroMaxPaletT3) {
-		this.tave_numeroMaxPaletT3 = tave_numeroMaxPaletT3;
+	public Integer getTave_numeroMaxT4() {
+		return tave_numeroMaxT4;
+	}
+	public void setTave_numeroMaxT4(Integer tave_numeroMaxT4) {
+		this.tave_numeroMaxT4 = tave_numeroMaxT4;
 	}
 
-	public Double getTave_importePaletT3() {
-		return tave_importePaletT3;
+	public Integer getTave_numeroMaxT5() {
+		return tave_numeroMaxT5;
+	}
+	public void setTave_numeroMaxT5(Integer tave_numeroMaxT5) {
+		this.tave_numeroMaxT5 = tave_numeroMaxT5;
 	}
 
-	public void setTave_importePaletT3(Double tave_importePaletT3) {
-		this.tave_importePaletT3 = tave_importePaletT3;
+	public Boolean getTave_soloTranchas() {
+		return tave_soloTranchas;
+	}
+	public void setTave_soloTranchas(Boolean tave_soloTranchas) {
+		this.tave_soloTranchas = tave_soloTranchas;
 	}
 
-	public Integer getTave_numeroMaxPaletT4() {
-		return tave_numeroMaxPaletT4;
+	public String getTave_observaciones() {
+		return tave_observaciones;
 	}
-
-	public void setTave_numeroMaxPaletT4(Integer tave_numeroMaxPaletT4) {
-		this.tave_numeroMaxPaletT4 = tave_numeroMaxPaletT4;
+	public void setTave_observaciones(String tave_observaciones) {
+		this.tave_observaciones = tave_observaciones;
 	}
-
-	public Double getTave_importePaletT4() {
-		return tave_importePaletT4;
-	}
-
-	public void setTave_importePaletT4(Double tave_importePaletT4) {
-		this.tave_importePaletT4 = tave_importePaletT4;
-	}
-
-	public Integer getTave_numeroMaxPaletT5() {
-		return tave_numeroMaxPaletT5;
-	}
-
-	public void setTave_numeroMaxPaletT5(Integer tave_numeroMaxPaletT5) {
-		this.tave_numeroMaxPaletT5 = tave_numeroMaxPaletT5;
-	}
-
-	public Double getTave_importePaletT5() {
-		return tave_importePaletT5;
-	}
-
-	public void setTave_importePaletT5(Double tave_importePaletT5) {
-		this.tave_importePaletT5 = tave_importePaletT5;
-	}
-	
-	@Override
-	public String toString() {
-		return "TarifaVenta [id=" + id + ", tave_fechaDesde=" + tave_fechaDesde
-				+ ", tave_fechaHasta=" + tave_fechaHasta + ", agencia="
-				+ agencia + ", cliente=" + cliente + ", nodoOrigen="
-				+ nodoOrigen + ", nodoDestino=" + nodoDestino
-				+ ", tave_observaciones=" + tave_observaciones
-				+ ", tave_importeCamionCompleto=" + tave_importeCamionCompleto
-				+ ", tave_numeroMaxPaletT1=" + tave_numeroMaxPaletT1
-				+ ", tave_importePaletT1=" + tave_importePaletT1
-				+ ", tave_numeroMaxPaletT2=" + tave_numeroMaxPaletT2
-				+ ", tave_importePaletT2=" + tave_importePaletT2
-				+ ", tave_numeroMaxPaletT3=" + tave_numeroMaxPaletT3
-				+ ", tave_importePaletT3=" + tave_importePaletT3
-				+ ", tave_numeroMaxPaletT4=" + tave_numeroMaxPaletT4
-				+ ", tave_importePaletT4=" + tave_importePaletT4
-				+ ", tave_numeroMaxPaletT5=" + tave_numeroMaxPaletT5
-				+ ", tave_importePaletT5=" + tave_importePaletT5 + "]";
-	}
-
+		
 	public String getTave_fechaDesdeFormateada() {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -312,6 +246,64 @@ public class TarifaVenta extends JsonResponse implements Serializable{
 		} else {
 			return sdf.format(tave_fechaHasta);
 		}
+	}
+
+	public TarifaVenta() {
+		super();		
+	}
+
+	public TarifaVenta(Integer id, Date tave_fechaDesde, Date tave_fechaHasta,
+			Agencia agencia, Cliente cliente, Nodo nodoOrigen,
+			Nodo nodoDestino, Double tave_importeCamionCompleto,
+			Double tave_numeroDesdeCC, Double tave_importeT1,
+			Double tave_importeT2, Double tave_importeT3,
+			Double tave_importeT4, Double tave_importeT5,
+			Integer tave_numeroMaxT1, Integer tave_numeroMaxT2,
+			Integer tave_numeroMaxT3, Integer tave_numeroMaxT4,
+			Integer tave_numeroMaxT5, Boolean tave_soloTranchas,
+			String tave_observaciones) {
+		super();
+		this.id = id;
+		this.tave_fechaDesde = tave_fechaDesde;
+		this.tave_fechaHasta = tave_fechaHasta;
+		this.agencia = agencia;
+		this.cliente = cliente;
+		this.nodoOrigen = nodoOrigen;
+		this.nodoDestino = nodoDestino;
+		this.tave_importeCamionCompleto = tave_importeCamionCompleto;
+		this.tave_numeroDesdeCC = tave_numeroDesdeCC;
+		this.tave_importeT1 = tave_importeT1;
+		this.tave_importeT2 = tave_importeT2;
+		this.tave_importeT3 = tave_importeT3;
+		this.tave_importeT4 = tave_importeT4;
+		this.tave_importeT5 = tave_importeT5;
+		this.tave_numeroMaxT1 = tave_numeroMaxT1;
+		this.tave_numeroMaxT2 = tave_numeroMaxT2;
+		this.tave_numeroMaxT3 = tave_numeroMaxT3;
+		this.tave_numeroMaxT4 = tave_numeroMaxT4;
+		this.tave_numeroMaxT5 = tave_numeroMaxT5;
+		this.tave_soloTranchas = tave_soloTranchas;
+		this.tave_observaciones = tave_observaciones;
+	}
+	
+	@Override
+	public String toString() {
+		return "TarifaVenta [id=" + id + ", tave_fechaDesde=" + tave_fechaDesde
+				+ ", tave_fechaHasta=" + tave_fechaHasta + ", agencia="
+				+ agencia + ", cliente=" + cliente + ", nodoOrigen="
+				+ nodoOrigen + ", nodoDestino=" + nodoDestino
+				+ ", tave_importeCamionCompleto=" + tave_importeCamionCompleto
+				+ ", tave_numeroDesdeCC=" + tave_numeroDesdeCC
+				+ ", tave_importeT1=" + tave_importeT1 + ", tave_importeT2="
+				+ tave_importeT2 + ", tave_importeT3=" + tave_importeT3
+				+ ", tave_importeT4=" + tave_importeT4 + ", tave_importeT5="
+				+ tave_importeT5 + ", tave_numeroMaxT1=" + tave_numeroMaxT1
+				+ ", tave_numeroMaxT2=" + tave_numeroMaxT2
+				+ ", tave_numeroMaxT3=" + tave_numeroMaxT3
+				+ ", tave_numeroMaxT4=" + tave_numeroMaxT4
+				+ ", tave_numeroMaxT5=" + tave_numeroMaxT5
+				+ ", tave_soloTranchas=" + tave_soloTranchas
+				+ ", tave_observaciones=" + tave_observaciones + "]";
 	}
 
 }
